@@ -47,11 +47,12 @@ form input[type="submit"]{
 
 
     <body>
-          <?php
-        require_once '../Taller2/Conexion.php';
+    <?php
+    $titulo="Ingreso datos-Paciente";
+        include_once '../Taller2/Encabezado.php';
         ?>
         <div id="idform">
-            <form method="post">
+            <form method="POST">
                
                 <div>
                 <label>Cedula:</label>
@@ -69,9 +70,9 @@ form input[type="submit"]{
                 <div><label>Provincia</label>
                 <select name="cbprovin" required>
             <option value="">Seleccione...</option>
-            <option value="mnb">Manabi</option>
-            <option value="gys">GUAYAS</option>
-            <option value="stnl">SANTA ELENA</option>
+            <option value="MANABI">Manabi</option>
+            <option value="GUAYAS">GUAYAS</option>
+            <option value="SANTA ELENA">SANTA ELENA</option>
         </select>
                 </div>
                 <div><label>Canton:</label>
@@ -96,44 +97,51 @@ form input[type="submit"]{
         <input type="radio" name="RGENE" value="F" required>Femenino<br>
                 </div>
                 <div >
-                <input type="submit" value="Agregar">
+                <input type="submit" value="Agregar" id="enviar">
                 </div>
             </form>
         </div>
         <?php
-         require_once '../conexion.php';
-         /*require_once '../validacion.php';*/
+      require_once '../Taller2/Conexion.php';
+        
          if (($_SERVER["REQUEST_METHOD"] == "POST") ){
-       /* if (!empty($_POST['txtusuario']) && 
-                !empty($_POST['txtpassword']) && !empty($_POST['txtnombre'])) {   
-*/
+            
+ /*$Genero = isset($_POST["RGENE"]) ? $_POST["RGENE"] : [];*/
+
+       
             $data = array(
-                'user' => clean_input($_POST['txtusuario']),
-                'nom' =>  clean_input($_POST['txtnombre']),
-                'apell'=>!empty($_POST['txtapellidos'])? clean_input($_POST['txtapellidos']):'',
-                'email' => !empty($_POST['txtemail'])? clean_input($_POST['txtemail']):'', 
-                //ej para dato no obligatorio
-                 'pass' =>clean_input($_POST['txtpassword'])
+                'cedula'    => $_POST['txtcedula'],
+        'nom'       => $_POST['txtnombre'],
+        'apell'     => $_POST['txtapellidos'],
+        'fechnac'   => $_POST['txtfchnacimi'],
+        'provin'    => $_POST['cbprovin'],
+        'direc'     => $_POST['txtdir'],
+        'ncel'      => $_POST['txtncel'],
+        'cant'      => $_POST['cbcanton'],
+        'gener'     => $_POST['RGENE'],
+        'email'     => $_POST['txtemail']
+                
             );
-           $sql = "insert into usuarios(id, username, password, nombre, apellidos, email) ".
-           "values(null, :user, :pass,:nom,:apell,:email)";
-            $stmt = $pdo->prepare($sql);// prepara sentencia
+ $sql = "insert into pacientes (ID_PACIENTE, Cedula,Nombres,Apellidos ,Fecha_nacimiento,
+ Provincia,Direccion,NumCelular,canton, Genero, CorreoElectronico ) " .
+ "VALUES (null, :cedula, :nom, :apell, :fechnac, :provin, :direc, :ncel, :cant, :gener, :email)";
+    
+           $stmt = $pdo->prepare($sql);// prepara sentencia
             $stmt->execute($data);// ejecutar sentencia
             
             if ($stmt->rowCount() > 0) {// rowCount() permite conocer el numero de filas afectadas
-          $_SESSION["mensaje"]="Se inserto correctamente el usuario " .clean_input($_POST['txtusuario'])."";
-               header("location:buscar.php");
+        /*  $_SESSION["mensaje"]="Se inserto correctamente el paciente ";*/
+          /*require_once '../Taller2/Consultar.php';*/
+          echo "PACIENTE INGRESADO";
             }else{
-                echo "Error al insertar usuario";
+                echo "Error al insertar paciente";
+                
             }
-       /* }*/
-        /*else{
-
-            echo "Ingrese todos los datos requeridos";
-        }*/
-    }
+      
+}
         ?>
 
 
     </body>
+    
 </html>

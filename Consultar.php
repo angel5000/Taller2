@@ -107,18 +107,19 @@ height:100px;
                             <td><?php echo $fila['NumCelular'] ?></td>
                             <td><?php echo $fila['CorreoElectronico'] ?></td>
                             <td><?php echo $fila['Genero'] ?></td>
-                           
+                            <td>
+                                <a href="../Taller2/Editar.php?id=<?php echo $fila['ID_PACIENTE'] ?>">Editar</a>
+                                </td>
+                                <td>
+                                <a href="../Taller2/Eliminar.php?id=<?php echo $fila['ID_PACIENTE'] ?>">Eliminar</a>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
        
        </div>
-<div id="resultado">  
-      
-        
-      
-        </div>
+
     </body>
 
 
